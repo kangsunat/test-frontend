@@ -5,6 +5,18 @@
   --foreground: #171717;
 }
 
+/* Hilangkan panah untuk semua browser */
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hilangkan panah di Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
