@@ -12,10 +12,10 @@ export async function countries({
     const filter = { where: { nama_negara: search } };
     const queryString = encodeURIComponent(JSON.stringify(filter));
     const response = await fetch(
-      `${url}/negaras${search && `?filter=${queryString}`}`
+      `${url}/negaras${search && `?filter=${queryString}`}`,
+      { cache: "no-store" }
     );
     const data = await response.json();
-
     return data;
   } catch (error) {
     return [];
@@ -25,15 +25,20 @@ export async function countries({
 // find all harbor by countryId
 export async function harbor({
   search,
+  id,
 }: {
   search?: string;
+  id?: string;
 }): Promise<harbor[]> {
   try {
-    const filter = { where: { nama_pelabuhan: search } };
+    const filter = {
+      where: { ...(search && { nama_pelabuhan: search }), id_negara: id },
+    };
+
     const queryString = encodeURIComponent(JSON.stringify(filter));
-    const response = await fetch(
-      `${url}/pelabuhans${search && `?filter=${queryString}`}`
-    );
+    const response = await fetch(`${url}/pelabuhans?filter=${queryString}`, {
+      cache: "no-store",
+    });
     const data = await response.json();
 
     return data;
@@ -45,15 +50,19 @@ export async function harbor({
 // find all product by harborId
 export async function products({
   search,
+  id,
 }: {
   search?: string;
+  id?: string;
 }): Promise<product[]> {
   try {
-    const filter = { where: { nama_barang: search } };
+    const filter = {
+      where: { ...(search && { nama_barang: search }), id_pelabuhan: id },
+    };
     const queryString = encodeURIComponent(JSON.stringify(filter));
-    const response = await fetch(
-      `${url}/barangs${search && `?filter=${queryString}`}`
-    );
+    const response = await fetch(`${url}/barangs?filter=${queryString}`, {
+      cache: "no-store",
+    });
     const data = await response.json();
 
     return data;
